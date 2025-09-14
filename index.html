@@ -295,57 +295,71 @@
     }
 
     async function sendMessage() {
-        const userMessage = chatInput.value.trim();
-        if (!userMessage || isTyping) return;
+      const userMessage = chatInput.value.trim();
+      if (!userMessage || isTyping) return;
 
-        isTyping = true;
-        addMessageToChat(userMessage, 'user');
-        chatInput.value = '';
-        showTypingIndicator();
+      isTyping = true;
+      addMessageToChat(userMessage, 'user');
+      chatInput.value = '';
+      showTypingIndicator();
 
-        chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+      chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
 
-        try {
-            if (!API_KEY) {
-                throw new Error("API Key is missing. Please add your key to the 'API_KEY' variable in the code.");
-            }
+      try {
+          if (!API_KEY) {
+              throw new Error("API Key is missing. Please add your key to the 'API_KEY' variable in the code.");
+          }
 
-            const payload = {
-                contents: chatHistory,
-                systemInstruction: {
-                    parts: [{ text: `You are a helpful AI assistant for "Quantum.ai", a platform for learning AI/ML in Bengali. Respond to user queries in Bengali. Do not mention that you are a language model, but rather act as the platform's assistant. Your knowledge is based on the platform's purpose, which is to provide AI/ML education in the Bengali language. You can recommend courses, answer general questions about AI/ML, and guide users to the right resources. You cannot perform actions like purchases, but you can guide the user on how to do so on the website.` }]
-                }
-            };
-            
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-            
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+          // Pull all courses dynamically from the HTML
+          const courseCards = document.querySelectorAll('.course-card');
+          let coursesText = '';
+          courseCards.forEach(card => {
+              const title = card.querySelector('h3')?.textContent || '';
+              const desc = card.querySelector('p')?.textContent || '';
+              coursesText += `- ${title}: ${desc}\n`;
+          });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error.message);
-            }
+          const payload = {
+              contents: chatHistory,
+              systemInstruction: {
+                  parts: [{
+                      text: `You are a helpful AI assistant for "Quantum.ai", a platform for learning AI/ML in Bengali. Respond in Bengali. 
+                      You know the platform offers these courses:
+                      ${coursesText}
+                      Respond only based on these courses when asked. You can recommend courses, answer questions about AI/ML, and guide users to the right resources. Do not mention that you are a language model.`
+                    }]
+              }
+          };
 
-            const data = await response.json();
-            const botMessage = data.candidates[0].content.parts[0].text;
-            
-            chatHistory.push({ role: 'model', parts: [{ text: botMessage }] });
-            
-            hideTypingIndicator();
-            addMessageToChat(botMessage, 'agent');
+          const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-        } catch (error) {
-            console.error('API Error:', error);
-            hideTypingIndicator();
-            addMessageToChat('দুঃখিত, এআই এজেন্টে সংযোগে সমস্যা হয়েছে। দয়া করে আপনার এপিআই কী পরীক্ষা করুন অথবা কিছুক্ষণ পর আবার চেষ্টা করুন।', 'agent');
-        } finally {
-            isTyping = false;
-        }
-    }
+          const response = await fetch(apiUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.error.message);
+          }
+
+          const data = await response.json();
+          const botMessage = data.candidates[0].content.parts[0].text;
+
+          chatHistory.push({ role: 'model', parts: [{ text: botMessage }] });
+
+          hideTypingIndicator();
+          addMessageToChat(botMessage, 'agent');
+
+      } catch (error) {
+          console.error('API Error:', error);
+          hideTypingIndicator();
+          addMessageToChat('দুঃখিত, এআই এজেন্টে সংযোগে সমস্যা হয়েছে। দয়া করে আপনার এপিআই কী পরীক্ষা করুন অথবা কিছুক্ষণ পর আবার চেষ্টা করুন।', 'agent');
+      } finally {
+          isTyping = false;
+      }
+  }
 
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
