@@ -251,10 +251,10 @@
     
     // Add initial welcome message
     function addInitialMessage() {
-        const welcomeMessage = `হ্যালো! আমি Quantum.ai এর সহায়ক। আমি আপনাকে সাহায্য করতে পারি:
-        <br>• কোর্স সুপারিশ করতে
-        <br>• AI/ML সম্পর্কিত প্রশ্নের উত্তর দিতে
-        <br><br>আপনার কী জানতে চান?`;
+        const welcomeMessage = `হ্যালো! আমি Quantum.ai এর সহায়ক। আমি আপনাকে যেইভাবে সাহায্য করতে পারি:
+        <br>• AI/ML কোর্স নিয়ে তথ্য দিয়ে 
+        <br>• AI/ML সম্পর্কিত প্রশ্নের উত্তর দিয়ে 
+        <br><br>আপনি কী জানতে চাচ্ছেন?`;
         addMessageToChat(welcomeMessage, 'agent');
         chatHistory.push({ role: 'model', parts: [{ text: welcomeMessage.replace(/<br>/g, '\n') }] });
     }
