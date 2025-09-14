@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum.ai - AI/ML শেখার সেরা প্ল্যাটফর্ম</title>
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico" sizes="600x1000">
+  <style>
+    /* Base Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; line-height: 1.6; background: #f7f9fc; color: #333; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+    /* Navbar */
+    .navbar { background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+    .logo img { height: 80px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: #555; font-weight: 500; transition: color 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: #ff0000; }
+
+    /* Hero Section */
+    .hero { text-align: center; padding: 5rem 1rem; background: linear-gradient(120deg, #ee4d4d, #be4444); color: #fff; }
+    .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+    .cta-button { background: #fff; color: #ff0000; padding: 0.75rem 1.5rem; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-block; }
+
+    /* Features Section */
+    .features { padding: 4rem 0; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+    .feature-card { background: #fff; padding: 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+    .feature-card h3 { margin: 1rem 0; color: #ff0000; }
+
+    /* Courses Section */
+    .courses { padding: 4rem 0; background: #eef3f8; }
+    .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .course-card { background: #fff; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 8px rgba(0,0,0,0.05); text-align: center; }
+    .buy-button { background: #007bff; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; margin-top: 1rem; }
+
+    /* Stats Section */
+    .stats { padding: 4rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; text-align: center; background: #fff; }
+    .stat-card { padding: 2rem; border-radius: 12px; background: #f9fbfd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+    .stat-card .stat-number { display: block; color: #ff0000; font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+
+    /* AI Agent Chat */
+    .agent-container { padding: 4rem 0; background: #eef3f8; }
+    .chat-interface { background: #fff; border-radius: 12px; padding: 1rem; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; height: 400px; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 1rem; border: 1px solid #ddd; border-radius: 12px; background: #f7f9fc; margin-bottom: 1rem; }
+    .message { margin-bottom: 0.75rem; padding: 0.5rem 1rem; border-radius: 12px; max-width: 80%; }
+    .user-message { background: #ff4d4d; color: #fff; margin-left: auto; text-align: right; }
+    .agent-message { background: #fff; color: #333; border: 1px solid #ddd; }
+    .chat-input { display: flex; gap: 0.5rem; }
+    .chat-input input { flex: 1; padding: 0.75rem 1rem; border-radius: 25px; border: 1px solid #ddd; outline: none; }
+    .send-button { padding: 0.75rem 1.5rem; border-radius: 25px; border: none; background: #ff4d4d; color: #fff; cursor: pointer; }
+    .typing-indicator {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        background: #f1f1f1;
+        border-radius: 12px;
+        color: #555;
+    }
+    .typing-indicator .dot {
+        width: 8px;
+        height: 8px;
+        background-color: #ff4d4d;
+        border-radius: 50%;
+        margin-right: 4px;
+        animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .typing-indicator .dot:nth-child(2) { animation-delay: -0.32s; }
+    .typing-indicator .dot:nth-child(3) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+        0%, 80%, 100% { transform: scale(0); }
+        40% { transform: scale(1.0); }
+    }
+
+    /* Footer */
+    footer { text-align: center; padding: 2rem 0; background: #f1f4f8; font-size: 0.9rem; color: #555; margin-top: 3rem; }
+
+    /* Tab Content */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; line-height: 1.3; }
+      .hero p { font-size: 1rem; }
+      .nav-links { display: none; }
+      .feature-card, .course-card, .stat-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo"><img src="logo/favicon.png" alt=""></a>
+      <ul class="nav-links">
+        <li><a href="#" onclick="showTab(event,'home')" class="active">হোম</a></li>
+        <li><a href="#" onclick="showTab(event,'courses')">কোর্স</a></li>
+        <li><a href="#" onclick="showTab(event,'agent')">AI এজেন্ট</a></li>
+        <li><a href="#" onclick="showTab(event,'about')">আমাদের সম্পর্কে</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- Home Tab -->
+    <div id="home" class="tab-content active">
+      <section class="hero container">
+        <h1>বাংলায় AI/ML শিখুন</h1>
+        <p>আর্টিফিশিয়াল ইন্টেলিজেন্স এবং মেশিন লার্নিং এর জগতে আপনার যাত্রা শুরু করুন</p>
+        <a href="#" onclick="showTab(event,'courses')" class="cta-button">কোর্স দেখুন</a>
+      </section>
+
+      <section class="features container">
+        <h2 style="text-align:center;margin-bottom:2rem;color:#333;">কেন বাংলা AI Education?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📚</div>
+            <h3>বাংলায় শেখা</h3>
+            <p>সম্পূর্ণ বাংলা ভাষায় AI এবং ML এর জটিল বিষয়গুলো সহজভাবে শিখুন</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👨‍💻</div>
+            <h3>প্র্যাক্টিক্যাল প্রজেক্ট</h3>
+            <p>রিয়েল-ওয়ার্ল্ড প্রজেক্ট এবং হ্যান্ডস-অন এক্সপেরিয়েন্সের মাধ্যমে শিখুন</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>AI এজেন্ট সাপোর্ট</h3>
+            <p>আমাদের স্মার্ট AI এজেন্ট আপনাকে কোর্স নির্বাচন এবং শেখায় সাহায্য করবে</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats container">
+        <div class="stat-card"><span class="stat-number">500+</span><p>সক্রিয় শিক্ষার্থী</p></div>
+        <div class="stat-card"><span class="stat-number">15+</span><p>বিশেষজ্ঞ কোর্স</p></div>
+        <div class="stat-card"><span class="stat-number">95%</span><p>সফলতার হার</p></div>
+        <div class="stat-card"><span class="stat-number">24/7</span><p>AI সাপোর্ট</p></div>
+      </section>
+    </div>
+
+    <!-- Courses Tab -->
+    <div id="courses" class="tab-content">
+      <section class="courses container">
+        <h2 style="text-align:center;margin-bottom:2rem;color:#333;">আমাদের কোর্সসমূহ</h2>
+        <div class="courses-grid">
+          <div class="course-card">
+            <h3>Machine Learning with Python</h3>
+            <p>শুরু থেকে শিখো ML এর মূল কনসেপ্ট।</p>
+            <button class="buy-button">কোর্স কিনুন</button>
+          </div>
+          <div class="course-card">
+            <h3>Deep Learning with Python</h3>
+            <p>Python দিয়ে Neural Network বানানো শেখো।</p>
+            <button class="buy-button">কোর্স কিনুন</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- AI Agent Tab -->
+    <div id="agent" class="tab-content">
+      <section class="agent-container container">
+        <h2 style="text-align:center;margin-bottom:2rem;color:#333;">AI এজেন্ট</h2>
+        <div class="chat-interface">
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="আপনার প্রশ্ন লিখুন...">
+            <button class="send-button" onclick="sendMessage()">Send</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- About Tab -->
+<!-- About Tab -->
+<div id="about" class="tab-content">
+  <section class="container" style="padding: 4rem 0;">
+    <div style="background: rgba(255,255,255,0.95); border-radius: 20px; padding: 3rem; backdrop-filter: blur(10px);">
+
+      <h2 style="text-align:center;margin-bottom:2rem;color:#333;">আমাদের সম্পর্কে</h2>
+
+      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+
+        <h3 style="color: #dd5a5a; margin-bottom: 2rem;">Quantum.ai এর মিশন</h3>
+        <p style="font-size:1.2rem; margin-bottom:2rem; color:#555; line-height:1.8;">
+          আমাদের লক্ষ্য হলো বাংলাদেশের আগ্রহী প্রতিটি মানুষকে আর্টিফিশিয়াল ইন্টেলিজেন্স এবং মেশিন লার্নিং এর জগতে দক্ষ করে তোলা।
+          আমরা বিশ্বাস করি যে ভাষার বাধা শিক্ষার পথে বাধা হয়ে দাঁড়ানো উচিত নয়।
+        </p>
+
+        <h3 style="color: #ea6666; margin: 3rem 0 2rem;">আমাদের বৈশিষ্ট্য</h3>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin:2rem 0;">
+          <div style="background:#fff; padding:2rem; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+            <h4 style="color:#333; margin-bottom:1rem;">🎓 বিশেষজ্ঞ শিক্ষক</h4>
+            <p style="color:#666;">আন্তর্জাতিক মানের বিশেষজ্ঞ শিক্ষকদের দ্বারা প্রস্তুতকৃত কোর্স</p>
+          </div>
+          <div style="background:#fff; padding:2rem; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+            <h4 style="color:#333; margin-bottom:1rem;">💻 আধুনিক পদ্ধতি</h4>
+            <p style="color:#666;">সর্বশেষ প্রযুক্তি এবং আধুনিক শিক্ষা পদ্ধতি ব্যবহার</p>
+          </div>
+          <div style="background:#fff; padding:2rem; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+            <h4 style="color:#333; margin-bottom:1rem;">🤝 কমিউনিটি সাপোর্ট</h4>
+            <p style="color:#666;">সক্রিয় শিক্ষার্থী কমিউনিটি এবং ২৪/৭ সাপোর্ট</p>
+          </div>
+        </div>
+
+        <h3 style="color: #667eea; margin: 3rem 0 2rem;">যোগাযোগ</h3>
+        <div style="background:#f8f9fa; padding:2rem; border-radius:15px;">
+          <p><strong>ইমেইল:</strong> info@quantumaibd.xyz</p>
+          <p><strong>ফোন:</strong> +880-1883020356</p>
+          <p><strong>ঠিকানা:</strong> ঢাকা, বাংলাদেশ</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+
+  <footer>
+    <div class="container">
+      <p>&copy; ২০২৫ Quantum.ai এর সকল অধিকার সংরক্ষিত।</p>
+      <p>বাংলায় AI শিক্ষার অগ্রদূত প্ল্যাটফর্ম</p>
+    </div>
+  </footer>
+
+  <script>
+    // Tab switching
+    function showTab(event, tabName) {
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks.forEach(link => link.classList.remove('active'));
+      if (event && event.target) {
+        event.target.classList.add('active');
+      }
+    }
+
+    // Gemini AI API integration
+    const API_KEY = "AIzaSyAoqdvVkzme2F9aF9QstiEyvounSXmzJtg"; 
+    const chatInput = document.getElementById('chatInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatHistory = [];
+    let isTyping = false;
+    
+    // Add initial welcome message
+    function addInitialMessage() {
+        const welcomeMessage = `হ্যালো! আমি Quantum.ai এর সহায়ক। আমি আপনাকে সাহায্য করতে পারি:
+        <br>• কোর্স সুপারিশ করতে
+        <br>• AI/ML সম্পর্কিত প্রশ্নের উত্তর দিতে
+        <br><br>আপনার কী জানতে চান?`;
+        addMessageToChat(welcomeMessage, 'agent');
+        chatHistory.push({ role: 'model', parts: [{ text: welcomeMessage.replace(/<br>/g, '\n') }] });
+    }
+
+    function addMessageToChat(message, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        
+        if (sender === 'user') {
+            messageDiv.textContent = message;
+        } else {
+            messageDiv.innerHTML = `<strong>AI Assistant:</strong> ${message}`;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    function showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message agent-message typing-indicator';
+        typingDiv.id = 'typing-indicator';
+        typingDiv.innerHTML = `
+            <strong>AI Assistant:</strong>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        `;
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function hideTypingIndicator() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
+    async function sendMessage() {
+        const userMessage = chatInput.value.trim();
+        if (!userMessage || isTyping) return;
+
+        isTyping = true;
+        addMessageToChat(userMessage, 'user');
+        chatInput.value = '';
+        showTypingIndicator();
+
+        chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+
+        try {
+            if (!API_KEY) {
+                throw new Error("API Key is missing. Please add your key to the 'API_KEY' variable in the code.");
+            }
+
+            const payload = {
+                contents: chatHistory,
+                systemInstruction: {
+                    parts: [{ text: `You are a helpful AI assistant for "Quantum.ai", a platform for learning AI/ML in Bengali. Respond to user queries in Bengali. Do not mention that you are a language model, but rather act as the platform's assistant. Your knowledge is based on the platform's purpose, which is to provide AI/ML education in the Bengali language. You can recommend courses, answer general questions about AI/ML, and guide users to the right resources. You cannot perform actions like purchases, but you can guide the user on how to do so on the website.` }]
+                }
+            };
+            
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error.message);
+            }
+
+            const data = await response.json();
+            const botMessage = data.candidates[0].content.parts[0].text;
+            
+            chatHistory.push({ role: 'model', parts: [{ text: botMessage }] });
+            
+            hideTypingIndicator();
+            addMessageToChat(botMessage, 'agent');
+
+        } catch (error) {
+            console.error('API Error:', error);
+            hideTypingIndicator();
+            addMessageToChat('দুঃখিত, এআই এজেন্টে সংযোগে সমস্যা হয়েছে। দয়া করে আপনার এপিআই কী পরীক্ষা করুন অথবা কিছুক্ষণ পর আবার চেষ্টা করুন।', 'agent');
+        } finally {
+            isTyping = false;
+        }
+    }
+
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', addInitialMessage);
+  </script>
+</body>
+</html>
